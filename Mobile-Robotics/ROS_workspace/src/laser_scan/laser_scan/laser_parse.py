@@ -1,0 +1,105 @@
+#!/usr/bin/env python
+import rospy
+import math
+from sensor_msgs.msg import LaserScan
+from visualization_msgs.msg import Marker
+from geometry_msgs.msg import Point
+
+marker = Marker()
+points = Point()
+
+
+#*****************************************************************************************************************
+# This function returns object that you can send to Rviz!
+#
+# Parameter 'points' should be a list of geometry_msgs/Point objects
+# Returns a visualization_msgs/Marker object that can be published to Rviz on topic 'visualization_marker'
+
+# Edit the frame_id assignment below if you're using a TB2 (lines 25 and 28)
+#*****************************************************************************************************************
+def getMarkerWithPoints(points):
+	#print 'In plotPoint'
+
+	marker = Marker()
+
+	# TB2
+	#marker.header.frame_id = 'camera_depth_frame'
+
+	# TB3
+	marker.header.frame_id = 'base_scan'
+
+	marker.header.stamp = rospy.Time(0)
+	marker.ns = ''
+
+	# Id of marker will always be 0
+	marker.id = 0
+	marker.type = 8 # Points
+	marker.action = 0 # Add
+
+	# Append the point to the points array
+	for p in points:
+		# Use p as the point. It should be a PointStamped
+		marker.points.append(p)
+    
+	# Set size 
+	marker.scale.x = 0.02
+	marker.scale.y = 0.02
+	marker.scale.z = 0.02
+
+	# Set color and then append to colors array
+	marker.color.r = 1.0
+	marker.color.g = 1.0
+	marker.color.b = 1.0	
+	marker.color.a = 1.0
+	marker.colors.append(marker.color)
+
+	# Show for 10 seconds. Maybe pass this as a param?
+	marker.lifetime = rospy.Duration(10.0)
+
+	return marker
+
+
+def main():
+	print 'In main'
+	rospy.init_node('laser_parse', anonymous=True)
+	listener()
+	# talker()
+	rospy.spin()
+
+
+def callback(data):
+	global points
+	global marker
+	coordinates = []
+	theta = 0
+	for i in data.ranges:
+ 		theta += data.angle_increment
+		#print(i)
+		points.x = i * math.sin(theta)
+		points.y = i * math.cos(theta)
+		coordinates.append(points) 
+		#print('distance: ', i)
+		#print('angle: ', theta)
+		#print('points.x: ', points.x)
+		#print('points.y: ', points.y)
+		print('coordinates ', coordinates)
+	marker = getMarkerWithPoints(coordinates)
+	pub = rospy.Publisher('/visualization_marker', Marker, queue_size = 10)
+	pub.publish(marker)
+	#print(marker)
+
+
+def listener():
+	rospy.Subscriber('/scan', LaserScan, callback)
+
+
+def talker():
+	pub = rospy.Publisher('/visualization_marker', Marker, queue_size = 10)
+	rate = rospy.Rate(30)
+	while not rospy.is_shutdown():
+		pub.publish(marker)
+		rate.sleep()
+
+
+if __name__ == '__main__':
+    main()
