@@ -1,0 +1,8 @@
+prefix=/home/turtlebot/ros_workspace/devel
+
+Name: drive_robot
+Description: Description of drive_robot
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/turtlebot/ros_workspace/devel/lib 
+Requires: 

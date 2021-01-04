@@ -1,0 +1,8 @@
+prefix=/home/turtlebot/ros_workspace/devel
+
+Name: message_talk
+Description: Description of message_talk
+Version: 0.0.0
+Cflags: -I/home/turtlebot/ros_workspace/devel/include
+Libs: -L/home/turtlebot/ros_workspace/devel/lib 
+Requires: 

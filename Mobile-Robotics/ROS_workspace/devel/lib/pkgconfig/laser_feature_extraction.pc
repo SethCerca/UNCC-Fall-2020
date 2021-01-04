@@ -1,0 +1,8 @@
+prefix=/home/turtlebot/ros_workspace/devel
+
+Name: laser_feature_extraction
+Description: Description of laser_feature_extraction
+Version: 0.0.0
+Cflags: -I/home/turtlebot/ros_workspace/devel/include
+Libs: -L/home/turtlebot/ros_workspace/devel/lib 
+Requires: 

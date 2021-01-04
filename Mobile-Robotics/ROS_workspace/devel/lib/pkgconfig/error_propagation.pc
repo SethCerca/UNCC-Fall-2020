@@ -1,0 +1,8 @@
+prefix=/home/turtlebot/ros_workspace/devel
+
+Name: error_propagation
+Description: Description of error_propagation
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/turtlebot/ros_workspace/devel/lib 
+Requires: 

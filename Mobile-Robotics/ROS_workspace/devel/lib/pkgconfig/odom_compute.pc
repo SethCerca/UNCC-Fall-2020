@@ -1,0 +1,8 @@
+prefix=/home/turtlebot/ros_workspace/devel
+
+Name: odom_compute
+Description: Description of odom_compute
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/turtlebot/ros_workspace/devel/lib 
+Requires: 
